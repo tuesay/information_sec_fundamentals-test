@@ -853,6 +853,18 @@ const baseQuestions = [
     ],
     correctIndex: 3
   }
+    {
+    id: 72,
+    type: "single",
+    question: "Саша крут?",
+    options: [
+      "да",
+      "не",
+      "отказано",
+      "лох"
+    ],
+    correctIndex: 3
+  }
 ];
 
 const storage = {
