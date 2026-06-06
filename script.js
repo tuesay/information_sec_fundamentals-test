@@ -1,3 +1,12 @@
+// =========================================================================
+// 1. НАСТРОЙКИ И ВОПРОСЫ ТЕСТА (МЕНЯЙТЕ ТОЛЬКО ЭТОТ БЛОК ДЛЯ НОВЫХ ТЕСТОВ)
+// =========================================================================
+
+const QUIZ_CONFIG = {
+  title: "Тест по основам информационной безопасности", // Название вашего теста
+  storageKey: "infosec_quiz_mistakes_v1" // Уникальный ключ для сохранения ошибок (меняйте для каждого нового теста!)
+};
+
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
 const baseQuestions = [
@@ -867,19 +876,32 @@ const baseQuestions = [
   }
 ];
 
+// =========================================================================
+// 2. ДВИЖОК ТЕСТА (ЛОГИКА И РЕНДЕРИНГ — ТУТ НИЧЕГО МЕНЯТЬ НЕ ТРЕБУЕТСЯ)
+// =========================================================================
+
+// Универсальная функция для склонения слов (например: 1 вопрос, 2 вопроса, 5 вопросов)
+function pluralize(number, one, few, many) {
+  const num = Math.abs(number) % 100;
+  const lastDigit = num % 10;
+  if (num > 10 && num < 20) return many;
+  if (lastDigit > 1 && lastDigit < 5) return few;
+  if (lastDigit === 1) return one;
+  return many;
+}
+
 const storage = {
   getMistakes() {
-    try { return JSON.parse(localStorage.getItem("historyQuizMistakes") || "[]"); } catch { return []; }
+    try { return JSON.parse(localStorage.getItem(QUIZ_CONFIG.storageKey) || "[]"); } catch { return []; }
   },
-  setMistakes(value) { localStorage.setItem("historyQuizMistakes", JSON.stringify(value)); },
+  setMistakes(value) { localStorage.setItem(QUIZ_CONFIG.storageKey, JSON.stringify(value)); },
 };
 
-// Получаем ошибки, приводим к числам и оставляем ТОЛЬКО те, которые реально есть в текущей базе baseQuestions
+// Фильтруем сохраненные ошибки, оставляя только существующие ID вопросов
 const validMistakes = storage.getMistakes()
   .map(Number)
   .filter(id => baseQuestions.some(q => q.id === id));
 
-// Сразу обновляем хранилище, чтобы почистить его от мусора старых версий
 storage.setMistakes(validMistakes);
 
 const state = {
@@ -887,7 +909,7 @@ const state = {
   questions: [],
   questionIndex: 0,
   answers: {},
-  mistakes: validMistakes, // Используем уже отфильтрованные рабочие ID
+  mistakes: validMistakes,
   mistakeMode: false,
   currentRoundIds: [],
 };
@@ -966,18 +988,24 @@ function isCorrect(question, answer) {
 }
 
 function renderHome() {
+  const totalQuestions = baseQuestions.length; // Автоматически считает вопросы в базе
+  const questionWord = pluralize(totalQuestions, "вопрос", "вопроса", "вопросов");
+
   return `
     <div class="container">
       <div class="card">
         <div class="title-row">
           <div>
             <h1 style="margin:0;font-size:36px;">Тест по основам информационной безопасности</h1>
-            <p class="muted" style="margin:6px 0 0;">71 вопрос</p>
+            <p class="muted" style="margin:6px 0 0;">${totalQuestions} ${questionWord}</p>
           </div>
         </div>
 
-        <div class="grid grid-3" style="margin-top:18px;">
-          <div class="small-card"><div class="stat-label">Всего вопросов</div><div class="stat-value">71</div></div>
+        <div class="grid grid-2" style="margin-top:18px;">
+          <div class="small-card">
+            <div class="stat-label">Всего вопросов</div>
+            <div class="stat-value">${totalQuestions}</div>
+          </div>
           <button class="small-card clickable-card" onclick="startMistakesQuiz()" ${state.mistakes.length ? "" : "disabled"}>
             <div class="stat-label">Ошибок накоплено</div>
             <div class="stat-value">${state.mistakes.length}</div>

@@ -28,17 +28,20 @@ body {
   color: var(--text);
 }
 
+/* ГЛАВНЫЙ КОНТЕЙНЕР: Центрирует тест и делает его ширину аккуратной */
 .container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 16px;
+  max-width: 680px;          /* Оптимальная ширина для удобного чтения и кликов */
+  width: 100%;
+  margin: 40px auto;         /* Центрирует блок горизонтально и делает красивый отступ сверху */
+  padding: 0 16px;           /* Отступы, чтобы на смартфонах блок не прилипал к краям экрана */
 }
 
 .card {
+  width: 100%;
   background: var(--card);
   border-radius: 24px;
   box-shadow: 0 10px 30px var(--shadow);
-  padding: 20px;
+  padding: 32px;             /* Слегка увеличили внутренний отступ для большего объема */
 }
 
 .title-row { display: flex; gap: 14px; align-items: center; }
@@ -50,7 +53,7 @@ body {
 }
 
 .muted { color: var(--muted); }
-.grid { display: grid; gap: 14px; }
+.grid { display: grid; gap: 14px; width: 100%; }
 .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
 
@@ -83,7 +86,7 @@ body {
 
 .stat-label { font-size: 14px; color: var(--muted); }
 .stat-value { font-size: 30px; font-weight: 700; margin-top: 10px; color: var(--text); }
-.btn-row { display:flex; gap: 12px; flex-wrap: wrap; }
+.btn-row { display:flex; gap: 12px; flex-wrap: wrap; width: 100%; }
 
 .btn {
   border: 1px solid transparent;
@@ -124,6 +127,7 @@ body {
   border-radius: 18px;
   padding: 18px;
   border: 1px solid var(--border);
+  width: 100%;
 }
 
 .option-btn {
@@ -146,7 +150,7 @@ body {
   color: #121212; 
 }
 
-.progress-wrap { margin-top: 10px; }
+.progress-wrap { margin-top: 10px; width: 100%; }
 .progress-bar {
   width: 100%; height: 12px; background: var(--border); border-radius: 999px; overflow:hidden;
 }
@@ -155,8 +159,8 @@ body {
   height: 100%; background: var(--primary); width: 0%; transition: width 0.2s ease;
 }
 
-.top-row { display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap: wrap; }
-.match-card { border: 1px solid var(--border); background: var(--card); border-radius: 18px; padding: 14px; }
+.top-row { display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap: wrap; width: 100%; }
+.match-card { border: 1px solid var(--border); background: var(--card); border-radius: 18px; padding: 14px; width: 100%; }
 
 .select {
   width: 100%; border: 1px solid var(--border); border-radius: 14px; padding: 12px; font-size: 15px;
@@ -164,11 +168,21 @@ body {
 }
 
 .match-result { margin-top: 10px; font-size: 14px; }
-.list { display:grid; gap: 10px; }
-.error-item { border: 1px solid var(--border); border-radius: 18px; padding: 14px; background: var(--card); }
+.list { display:grid; gap: 10px; width: 100%; }
+.error-item { border: 1px solid var(--border); border-radius: 18px; padding: 14px; background: var(--card); width: 100%; }
 .center { text-align:center; }
 
+/* АДАПТИВНОСТЬ ДЛЯ СМАРТФОНОВ */
 @media (max-width: 760px) {
-  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .container {
+    margin: 12px auto;        /* Минимальные отступы сверху на телефонах */
+    padding: 0 8px;
+  }
+  .card {
+    padding: 20px;            /* Чуть меньше паддинги внутри, чтобы помещался текст */
+  }
+  .grid-3, .grid-2 { 
+    grid-template-columns: 1fr; /* Колонки встают друг под друга */
+  }
   .stat-value { font-size: 26px; }
 }
