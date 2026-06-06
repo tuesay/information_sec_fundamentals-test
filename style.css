@@ -1,50 +1,67 @@
 :root {
-  --bg: #f1f5f9;
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --primary: #0f172a;
-  --primary-text: #ffffff;
-  --green: #16a34a;
-  --green-border: #15803d;
-  --red: #dc2626;
-  --red-border: #b91c1c;
+  --bg: #0f172a;           /* Тёмный фон страницы */
+  --card: #1e293b;         /* Фон карточек (чуть светлее) */
+  --text: #f8fafc;         /* Светлый текст */
+  --muted: #94a3b8;        /* Приглушенный текст */
+  --border: #334155;       /* Границы элементов */
+  --primary: #f8fafc;      /* Основные кнопки (инверсия) */
+  --primary-text: #0f172a; /* Текст на основных кнопках */
+  --secondary-btn: #334155;/* Второстепенные кнопки */
+  --question-bg: #1e293b;  /* Блок с текстом вопроса */
+  --letter-bg: #334155;    /* Кружочки с буквами вариантов (A, B, C...) */
+  --letter-text: #cbd5e1;  /* Текст внутри кружочков */
+  --shadow: rgba(0, 0, 0, 0.35); /* Глубокая тень для темной темы */
+  
+  /* Мягкие цвета для правильных/неправильных ответов */
+  --green: #22c55e;
+  --green-border: #16a34a;
+  --red: #ef4444;
+  --red-border: #dc2626;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
+
 .container {
   max-width: 960px;
   margin: 0 auto;
   padding: 16px;
 }
+
 .card {
   background: var(--card);
   border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 30px var(--shadow);
   padding: 20px;
 }
+
 .title-row { display: flex; gap: 14px; align-items: center; }
+
 .icon-box {
   width: 52px; height: 52px; border-radius: 18px;
-  background: var(--primary); color: white; display:flex; align-items:center; justify-content:center;
+  background: var(--primary); color: var(--primary-text); display:flex; align-items:center; justify-content:center;
   font-size: 24px;
 }
+
 .muted { color: var(--muted); }
 .grid { display: grid; gap: 14px; }
 .grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
 .grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+
 .small-card {
-  background: white; border: 1px solid var(--border); border-radius: 18px; padding: 16px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 16px;
 }
+
 .stat-label { font-size: 14px; color: var(--muted); }
 .stat-value { font-size: 30px; font-weight: 700; margin-top: 10px; }
 .btn-row { display:flex; gap: 12px; flex-wrap: wrap; }
+
 .btn {
   border: 1px solid transparent;
   background: var(--primary);
@@ -53,58 +70,80 @@ body {
   padding: 14px 18px;
   font-size: 16px;
   cursor: pointer;
+  font-weight: 600;
 }
+
 .btn.secondary {
-  background: #e2e8f0;
+  background: var(--secondary-btn);
   color: var(--text);
 }
+
 .btn.outline {
-  background: white;
+  background: var(--card);
   border-color: var(--border);
   color: var(--text);
 }
-.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
 .badge {
   display: inline-block;
   padding: 10px 14px;
   border-radius: 14px;
   background: var(--primary);
-  color: white;
+  color: var(--primary-text);
   font-size: 14px;
 }
+
 .question-box {
-  background: #f8fafc;
+  background: var(--question-bg);
   border-radius: 18px;
   padding: 18px;
+  border: 1px solid var(--border);
 }
+
 .option-btn {
-  width: 100%; text-align: left; background: white; border: 1px solid var(--border); border-radius: 18px;
-  padding: 16px; font-size: 16px; cursor: pointer;
+  width: 100%; text-align: left; background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+  padding: 16px; font-size: 16px; cursor: pointer; color: var(--text);
 }
-.option-btn:hover:not(:disabled) { border-color: #94a3b8; }
+
+.option-btn:hover:not(:disabled) { border-color: var(--muted); }
 .option-btn.correct { background: var(--green); border-color: var(--green-border); color: white; }
 .option-btn.wrong { background: var(--red); border-color: var(--red-border); color: white; }
 .option-inner { display:flex; gap: 12px; align-items:flex-start; }
+
 .option-letter {
-  width: 28px; height: 28px; border-radius: 999px; background: #f1f5f9; color: #334155; display:flex; align-items:center; justify-content:center; font-size: 13px; font-weight: 700; flex-shrink: 0;
+  width: 28px; height: 28px; border-radius: 999px; background: var(--letter-bg); color: var(--letter-text); display:flex; align-items:center; justify-content:center; font-size: 13px; font-weight: 700; flex-shrink: 0;
 }
-.option-btn.correct .option-letter, .option-btn.wrong .option-letter { background: rgba(255,255,255,0.92); color: var(--text); }
+
+/* Кружочки букв внутри отвеченных вопросов */
+.option-btn.correct .option-letter, .option-btn.wrong .option-letter { 
+  background: rgba(255,255,255,0.92); 
+  color: #0f172a; 
+}
+
 .progress-wrap { margin-top: 10px; }
 .progress-bar {
-  width: 100%; height: 12px; background: #e2e8f0; border-radius: 999px; overflow:hidden;
+  width: 100%; height: 12px; background: var(--border); border-radius: 999px; overflow:hidden;
 }
+
 .progress-fill {
   height: 100%; background: var(--primary); width: 0%; transition: width 0.2s ease;
 }
+
 .top-row { display:flex; justify-content:space-between; align-items:center; gap: 12px; flex-wrap: wrap; }
-.match-card { border: 1px solid var(--border); background: white; border-radius: 18px; padding: 14px; }
+.match-card { border: 1px solid var(--border); background: var(--card); border-radius: 18px; padding: 14px; }
+
 .select {
   width: 100%; border: 1px solid var(--border); border-radius: 14px; padding: 12px; font-size: 15px;
+  background: var(--card); color: var(--text);
 }
+
 .match-result { margin-top: 10px; font-size: 14px; }
 .list { display:grid; gap: 10px; }
-.error-item { border: 1px solid var(--border); border-radius: 18px; padding: 14px; background: white; }
+.error-item { border: 1px solid var(--border); border-radius: 18px; padding: 14px; background: var(--card); }
 .center { text-align:center; }
+
 @media (max-width: 760px) {
   .grid-3, .grid-2 { grid-template-columns: 1fr; }
   .stat-value { font-size: 26px; }
