@@ -958,7 +958,7 @@ function renderHome() {
         </div>
 
         <div class="grid grid-3" style="margin-top:18px;">
-          <div class="small-card"><div class="stat-label">Всего вопросов</div><div class="stat-value">179</div></div>
+          <div class="small-card"><div class="stat-label">Всего вопросов</div><div class="stat-value">71</div></div>
           <button class="small-card clickable-card" onclick="startMistakesQuiz()" ${state.mistakes.length ? "" : "disabled"}>
             <div class="stat-label">Ошибок накоплено</div>
             <div class="stat-value">${state.mistakes.length}</div>
