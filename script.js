@@ -862,12 +862,20 @@ const storage = {
   setMistakes(value) { localStorage.setItem("historyQuizMistakes", JSON.stringify(value)); },
 };
 
+// Получаем ошибки, приводим к числам и оставляем ТОЛЬКО те, которые реально есть в текущей базе baseQuestions
+const validMistakes = storage.getMistakes()
+  .map(Number)
+  .filter(id => baseQuestions.some(q => q.id === id));
+
+// Сразу обновляем хранилище, чтобы почистить его от мусора старых версий
+storage.setMistakes(validMistakes);
+
 const state = {
   screen: "home",
   questions: [],
   questionIndex: 0,
   answers: {},
-  mistakes: storage.getMistakes(),
+  mistakes: validMistakes, // Используем уже отфильтрованные рабочие ID
   mistakeMode: false,
   currentRoundIds: [],
 };
